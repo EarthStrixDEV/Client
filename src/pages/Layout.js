@@ -16,6 +16,8 @@ import '../style.css';
 const Layout = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
+  const [enableSystem ,setEnableSystem] = useState(null);
+
   const toggleDrawer = () => {
     setIsDrawerOpen(!isDrawerOpen);
   };
@@ -71,7 +73,10 @@ const Layout = () => {
         <div className='drawerList'>
           <div className=''>
             <label class="relative inline-flex items-center cursor-pointer">
-              <input class="sr-only peer" value="" type="checkbox"/>
+              <input class="sr-only peer" type="checkbox" onChange={(event) => {
+                setEnableSystem(!event.target.checked)
+                localStorage.setItem('enableSystem', enableSystem);
+              }} />
                 <div class="peer rounded-full outline-none duration-100 after:duration-500 w-24 h-10 bg-white peer-focus:outline-none   
                 after:content-['ปิด'] after:absolute after:outline-none after:rounded-full after:h-8 after:w-10  after:top-1 after:left-1 after:flex after:justify-center after:items-center  after:text-white after:bg-no-color  peer-checked:after:translate-x-12 
                 peer-checked:after:content-['เปิด'] peer-checked:after:bg-yes-color peer-checked:after:border-white ">

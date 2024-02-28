@@ -48,6 +48,7 @@ const Main = () => {
             announceTextData.map((item) => (
               <div className='flex flex-row justify-between'>
                 <div>{item.announce_text}</div>
+                <div>{item.announce_date.replace("T"," ").slice(0 ,19)}</div>
                 <button onClick={() => handleDeleteAnnouncement(item.announce_id)} className='rounded hover:bg-neutral-50 active:bg-neutral-800 justify-self-end '>
                 <TiDelete size={30} color='#7A1E1E'/>
                 </button>

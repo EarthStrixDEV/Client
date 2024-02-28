@@ -7,8 +7,64 @@ const Addroom = () => {
     const [room_seat, setRoom_seat] = useState(0);
     const [courseData ,setCourseData] = useState([]);
     const [filteredCourseData, setFilteredCourseData] = useState([]); 
-    const [filterValue, setFilterValue] = useState(""); 
+    const [filterValue, setFilterValue] = useState("");
+    const [selectedItems_open, setSelectedItems_open] = useState({});
+    const [selectedItems_delete, setSelectedItems_delete] = useState({});
+    const [buttonText_open,setButtonText_open] = useState("เลือกทั้งหมด")
+    const [buttonText_delete,setButtonText_delete] = useState("เลือกทั้งหมด")
+  
+  const handleCheckboxChange_open = (id) => {
+    setSelectedItems_open({
+      ...selectedItems_open,
+      [id]: !selectedItems_open[id]
+    });
+  };
+  
+  const handleCheckAll_open = () => {
+    const allSelected_open = {}; // Object to store selected state for all items
+    const allSelected = Object.values(selectedItems_open).every(value => value); // Check if all items are currently selected
+  
+    // If all items are currently selected, deselect all; otherwise, select all
+    filteredCourseData.forEach(item => {
+      allSelected_open[item.room_number] = !allSelected;
+    });
 
+    // Update selectedItems_open state with allSelected_open
+    setSelectedItems_open(allSelected_open);
+
+    if (allSelected) {
+      setButtonText_open("เลือกทั้งหมด");
+    } else {
+      setButtonText_open("ยกเลิกทั้งหมด");
+    }
+  };
+
+  ///////////////////delete/////////////////
+  const handleCheckboxChange_delete = (id) => {
+    setSelectedItems_delete({
+      ...selectedItems_delete,
+      [id]: !selectedItems_delete[id]
+    });
+  };
+  
+  const handleCheckAll_delete = () => {
+    const allSelected_delete = {}; // Object to store selected state for all items
+    const allSelected = Object.values(selectedItems_delete).every(value => value); // Check if all items are currently selected
+  
+    // If all items are currently selected, deselect all; otherwise, select all
+    filteredCourseData.forEach(item => {
+      allSelected_delete[item.room_number] = !allSelected;
+    });
+  
+    // Update selectedItems_delete state with allSelected_delete
+    setSelectedItems_delete(allSelected_delete);
+
+    if (allSelected) {
+      setButtonText_delete("เลือกทั้งหมด");
+    } else {
+      setButtonText_delete("ยกเลิกทั้งหมด");
+    }
+  };
 
     async function handleImportroom() {
         try {
@@ -55,8 +111,7 @@ const Addroom = () => {
           if (item.room_number !== null && item.room_number !== undefined) {
             return (
               item.room_seat.toString().toLowerCase().includes(filterValue.toLowerCase()) ||
-              item.room_number.toLowerCase().includes(filterValue.toLowerCase()) 
-              
+              item.room_number.toLowerCase().includes(filterValue.toLowerCase())
             );
           } else {
             return false; 
@@ -129,7 +184,7 @@ const Addroom = () => {
                         <p>เพิ่มห้องเรียน</p>
                     </div>
                     <div className="flex justify-center">
-                        <div className="flex flex-col justify-center text-lg text-base pt-2 w-9/12">
+                        <div className="flex flex-col justify-center text-base pt-2 w-9/12">
                             {/* Room Number Input */}
                             <div className="flex flex-row justify-between  w-full items-center py-2">
                                 <label htmlFor="name">
@@ -151,7 +206,7 @@ const Addroom = () => {
                                     type="int"
                                     className="rounded-full p-3 text-sm py-1.5 w-3/5  "
                                     placeholder="จำนวนคน"
-                                    onChange={(event) => setRoom_seat(event.target.value)}
+                                    onChange={(event) => setRoom_seat(parseInt(event.target.value))}
                                 />
                             </div>
                         </div>
@@ -189,9 +244,9 @@ const Addroom = () => {
                                         <button
                                             type='button'
                                             className="p-2 my-2 mx-2 bg-red-300 rounded-lg w-1/2 hover:bg-zinc-500"
-                                            
+                                            onClick={handleCheckAll_open}
                                         >
-                                            เลือกทั้งหมด
+                                            {buttonText_open}
                                         </button>
                                         <button
                                             type='button'
@@ -207,10 +262,11 @@ const Addroom = () => {
                                     <div className="flex flex-row">
                                         <button
                                             className="p-2 my-2 mx-2 bg-red-300 rounded-lg w-1/2 hover:bg-zinc-500"
-                                            
+                                            onClick={handleCheckAll_delete}
                                         >
-                                            เลือกทั้งหมด
+                                            {buttonText_delete}
                                         </button>
+                                        {/* Delete Button */}
                                         <button
                                             className="p-2 my-2 mx-2 rounded-lg bg-no-color w-1/2 hover:bg-zinc-500"
                                         >
@@ -224,7 +280,7 @@ const Addroom = () => {
                     <tbody>
                         {
                             filteredCourseData.map((item) => (
-                                <tr key={item.id}>
+                                <tr key={item.room_number}>
                                     <td>
                                         <p>{item.room_number}</p>
                                     </td>
@@ -232,19 +288,19 @@ const Addroom = () => {
                                         <p>{item.room_seat}</p>
                                     </td>
                                     <td>
-                                        <input
-                                            type="checkbox"
-                                            className="accent-rose-color w-7 h-7"
-                                            checked={item.selected || false}
-                                           
-                                        />
+                                    <input
+                                        type="checkbox"
+                                        className="accent-rose-color w-7 h-7"
+                                        onChange={() => handleCheckboxChange_open(item.room_number)}
+                                        checked={selectedItems_open[item.room_number]}                
+                                    />
                                     </td>
                                     <td>
-                                        <input
-                                            type="checkbox"
-                                            className="accent-rose-color w-7 h-7"
-                                            checked={item.selected || false}
-                                            
+                                    <input
+                                        type="checkbox"
+                                        className="accent-rose-color w-7 h-7"   
+                                        onChange={() => handleCheckboxChange_delete(item.room_number)}
+                                        checked={selectedItems_delete[item.room_number]}                
                                         />
                                     </td>
                                 </tr>
