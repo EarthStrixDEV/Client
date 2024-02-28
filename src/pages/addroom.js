@@ -7,12 +7,20 @@ const Addroom = () => {
     const [room_seat, setRoom_seat] = useState(0);
     const [courseData ,setCourseData] = useState([]);
     const [filteredCourseData, setFilteredCourseData] = useState([]); 
+<<<<<<< HEAD
     const [filterValue, setFilterValue] = useState("");
+=======
+    const [filterValue, setFilterValue] = useState(""); 
+>>>>>>> 6fbd2334f3a9be58b1eca3943617526603c02e4e
     const [selectedItems_open, setSelectedItems_open] = useState({});
     const [selectedItems_delete, setSelectedItems_delete] = useState({});
     const [buttonText_open,setButtonText_open] = useState("เลือกทั้งหมด")
     const [buttonText_delete,setButtonText_delete] = useState("เลือกทั้งหมด")
   
+<<<<<<< HEAD
+=======
+    ////////////////////open/////////////////////
+>>>>>>> 6fbd2334f3a9be58b1eca3943617526603c02e4e
   const handleCheckboxChange_open = (id) => {
     setSelectedItems_open({
       ...selectedItems_open,
@@ -28,10 +36,17 @@ const Addroom = () => {
     filteredCourseData.forEach(item => {
       allSelected_open[item.room_number] = !allSelected;
     });
+<<<<<<< HEAD
 
     // Update selectedItems_open state with allSelected_open
     setSelectedItems_open(allSelected_open);
 
+=======
+  
+    // Update selectedItems_open state with allSelected_open
+    setSelectedItems_open(allSelected_open);
+
+>>>>>>> 6fbd2334f3a9be58b1eca3943617526603c02e4e
     if (allSelected) {
       setButtonText_open("เลือกทั้งหมด");
     } else {
